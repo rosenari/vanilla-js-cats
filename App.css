@@ -1,0 +1,19 @@
+.main {
+    margin:0 auto;
+    width:800px;
+}
+
+.search__input{
+    margin-top:20px;
+    width:100%;
+    height:60px;
+}
+
+.search__result{
+    margin-top:20px;
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
