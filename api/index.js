@@ -3,9 +3,9 @@ const API_KEY = '16d13a3a-8e3a-4b65-848b-159b86bfe617';
 
 let breed_id = {
     "아비시니안": "abys",
-    "에게안": "aege",
-    "아메리칸 밥테일": "abob",
-    "발리니즈": "bali",
+    "벵갈": "beng",
+    "히말라얀": "hima",
+    "네벨룽": "nebe",
     "페르시안": "pers",
 }
 

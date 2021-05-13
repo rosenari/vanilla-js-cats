@@ -1,0 +1,12 @@
+.cat__popup{
+    position:fixed;
+    top:50%;
+    left:50%; 
+    transform:translate(-50%,-50%);
+    overflow: hidden;
+}
+
+.cat__popup > img {
+    border:5px solid orange;
+    border-radius: 5px;
+}

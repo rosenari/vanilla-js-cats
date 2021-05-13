@@ -2,6 +2,7 @@ import "./App.css";
 import Api from "./api";
 import SearchInput from "./components/searchInput";
 import SearchResult from "./components/searchResult";
+import Popup from "./components/popup";
 
 let Instance;
 class App {
@@ -12,6 +13,7 @@ class App {
         this._component = {};
         this._component._searchInput = null;
         this._component._searchResult = null;
+        this._component._popup = new Popup($target);
         this._input = null;
         this._page = 1;
 
@@ -35,8 +37,20 @@ class App {
         //가까운 조상중 cat 클래스가 있다면 ?
         if (e.target.closest('.cat')) {
             //고양이 사진 팝업띄우기
-            console.log("click !!")
+            let id = e.target.dataset.id;
+            let cat = this._component._searchResult.state[id];
+            this._component._popup.setState({
+                visible: true, data: {
+                    width: cat.width,
+                    url: cat.url,
+                    height: cat.height
+                }
+            });
             return;
+        }
+
+        if (e.target.id == 'close') {
+            this._component._popup.setState({ visible: false });
         }
     }
 
