@@ -1,5 +1,5 @@
 const API_URL = 'https://api.thecatapi.com';
-const API_KEY = '16d13a3a-8e3a-4b65-848b-159b86bfe617';
+const API_KEY = '<Please Input your API_KEY>';
 
 let breed_id = {
     "아비시니안": "abys",
