@@ -12,6 +12,8 @@ class App {
         this._component = {};
         this._component._searchInput = null;
         this._component._searchResult = null;
+        this._input = null;
+        this._page = 1;
 
         Instance = this;
         return Instance;
@@ -25,6 +27,7 @@ class App {
 
         this._app.addEventListener('click', this.clickHandler);
         this._app.addEventListener('keypress', this.keyPressHandler);
+        this.addInfinityScroll();
     }
 
     /* Event Delegation - click */
@@ -41,18 +44,48 @@ class App {
     keyPressHandler = async (e) => {
         if (e.key == 'Enter' && e.target.tagName == 'INPUT') {
             //고양이 검색
-            let input = e.target.value;
+            this._input = e.target.value;
+            this._page = 1;
             e.target.value = '';
 
             try {
-                let cats = await Api.getCatsByBreed(input, 1);
+                let cats = await Api.getCatsByBreed(this._input, this._page);
                 this._component._searchResult.setState(cats);
+                this._page += 1;
             } catch (e) {
                 alert(e.message);
             }
 
             return;
         }
+    }
+
+    addInfinityScroll = () => {
+        let footer = document.getElementById('footer');
+        const io = new IntersectionObserver((entries, observer) => {
+            Array.from(entries).forEach(async (entry) => {
+                if (!entry.isIntersecting) return;
+
+                if (!this._input) return;
+
+                console.log(this._page);
+
+                try {
+                    let cats = await Api.getCatsByBreed(this._input, this._page);
+                    if (!cats.length) {
+                        return;
+                    }
+
+                    this._component._searchResult.setState([...this._component._searchResult.state, ...cats]);
+                    this._page += 1;
+                } catch (e) {
+                    alert(e.message);
+                }
+
+            });
+        });
+
+        io.observe(footer);
     }
 }
 
