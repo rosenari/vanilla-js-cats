@@ -9,6 +9,29 @@ let breed_id = {
     "페르시안": "pers",
 }
 
+let cacheDecorator = (func) => {
+    let cache = new Map();
+
+    return function (...args) {
+        let key = JSON.stringify(args);
+        if (cache.has(key)) {
+            console.log("cache hit !!");
+            return cache.get(key);
+        }
+
+        let result;
+
+        try {
+            result = func(...args);
+            cache.set(key, result);
+        } catch (e) {
+            throw new Error(e.message);
+        }
+
+        return result;
+    }
+}
+
 const Api = {
     getCatsByBreed: async (breed, page) => {
         let id = breed_id[breed];
@@ -29,4 +52,12 @@ const Api = {
     }
 }
 
-export default Api;
+let setCache = (obj) => {
+    for (let key in obj) {
+        Api[key] = cacheDecorator(Api[key]);
+    }
+
+    return obj;
+}
+
+export default setCache(Api);
